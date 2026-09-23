@@ -1,5 +1,6 @@
 package usefulglowberries;
 
+import dev.kikugie.fletching_table.fabric.Entrypoint;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import usefulglowberries.util.PolymerUtil;
 import usefulglowberries.util.SoundUtil;
 
+@Entrypoint
 public class UsefulGlowBerries implements ModInitializer {
 	public static final String MOD_ID = "useful-glow-berries";
 

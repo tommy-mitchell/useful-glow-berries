@@ -13,14 +13,11 @@
 	"license": "${mod_license}",
 	"icon": "assets/${mod_id}/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": ["${mod_group_id}.UsefulGlowBerries"]
-	},
 	"mixins": ["${mod_id}.mixins.json"],
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"minecraft": "~${minecraft_version}",
-		"java": ">=25",
+		"java": ">=${java_version}",
 		"fabric-api": "${fabric_api_version}"
 	},
 	"suggests": {

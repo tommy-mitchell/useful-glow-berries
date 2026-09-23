@@ -1,8 +1,9 @@
 {
 	"required": true,
-	"package": "usefulglowberries.mixin",
-	"compatibilityLevel": "JAVA_25",
+	"package": "${mod_group_id}.mixin",
+	"compatibilityLevel": "JAVA_${java_version}",
 	"mixins": [
+		"FrogMixin",
 		"ItemsMixin"
 	],
 	"injectors": {

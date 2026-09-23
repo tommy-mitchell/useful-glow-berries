@@ -1,7 +1,11 @@
 plugins {
 	id "net.fabricmc.fabric-loom" version "${loom_version}"
-	id "com.diffplug.spotless" version "${spotless_version}"
+	id "dev.kikugie.fletching-table.fabric" version "${fletching_table_version}"
+	id "dev.kikugie.fletching-table.mixin" version "${fletching_table_version}"
 }
+
+def java_version = JavaVersion.VERSION_25
+def java_version_int = java_version.majorVersion.toInteger()
 
 def mod_props = [
 	"mod_group_id": property("mod.group_id"),
@@ -17,13 +21,12 @@ def dep_versions = [
 	"minecraft_version": sc.current.version,
 	"loader_version": property("deps.loader"),
 	"fabric_api_version": property("deps.fabric_api"),
-	"polymer_version": property("deps.polymer")
+	"polymer_version": property("deps.polymer"),
+	"java_version": java_version_int,
 ]
 
 version = "${mod_props["mod_version"]}+${dep_versions["minecraft_version"]}"
 base.archivesName = mod_props["mod_id"]
-def java_version = JavaVersion.VERSION_25
-def java_version_int = java_version.majorVersion.toInteger()
 
 repositories {
 	maven { url "https://maven.nucleoid.xyz" }
@@ -38,8 +41,24 @@ dependencies {
 }
 
 processResources {
-	filesMatching("fabric.mod.json") {
+	filesMatching(["fabric.mod.json", "*.mixins.json"]) {
 		expand(mod_props + dep_versions)
+	}
+}
+
+fletchingTable {
+	fabric.configure(sourceSets.main) {}
+
+	mixins.configure(sourceSets.main) {
+		mixin("${mod_props["mod_id"]}.mixins.json")
+	}
+}
+
+loom {
+	runConfigs.all {
+		preferGradleTask = true
+		generateRunConfig = true
+		runDirectory = rootProject.file("run")
 	}
 }
 
@@ -54,23 +73,7 @@ java {
 }
 
 jar {
-	from("LICENSE") {
+	from("license.md") {
 		rename { "${it}_${mod_props["mod_group_id"]}"}
-	}
-}
-
-spotless {
-	java {
-		importOrder()
-		removeUnusedImports()
-		shortenFullyQualifiedTypes()
-
-		// princeOfSpace("2.2.0")
-		// 	.indentStyle("TABS")
-		// 	.indentSize(1)
-		// 	.trailingCommas(true)
-		// 	.javaLanguageLevel(java_version_int)
-
-		formatAnnotations()
 	}
 }
