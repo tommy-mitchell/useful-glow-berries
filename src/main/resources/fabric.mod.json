@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "${mod_description}",
+	"authors": ["${mod_author}"],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/${mod_id}",
+		"sources": "https://github.com/tommy-mitchell/${mod_id}",
+		"issues": "https://github.com/tommy-mitchell/${mod_id}/issues"
+	},
+	"license": "${mod_license}",
+	"icon": "assets/${mod_id}/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["${mod_group_id}.UsefulGlowBerries"]
+	},
+	"mixins": ["${mod_id}.mixins.json"],
+	"depends": {
+		"fabricloader": ">=${loader_version}",
+		"minecraft": "~${minecraft_version}",
+		"java": ">=25",
+		"fabric-api": "${fabric_api_version}"
+	},
+	"suggests": {
+		"polymer-core": "${polymer_version}"
+	}
+}
