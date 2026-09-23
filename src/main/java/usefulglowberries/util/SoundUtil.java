@@ -1,9 +1,9 @@
 package usefulglowberries.util;
 
-import usefulglowberries.UsefulGlowBerries;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
+import usefulglowberries.UsefulGlowBerries;
 
 public class SoundUtil {
 	public static SoundEvent GLOW_BERRY_USE = registerSound("item.glow_berry.use");

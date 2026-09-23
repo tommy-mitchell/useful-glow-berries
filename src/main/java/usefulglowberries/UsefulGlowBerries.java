@@ -1,11 +1,10 @@
 package usefulglowberries;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import usefulglowberries.util.PolymerUtil;
 import usefulglowberries.util.SoundUtil;
 

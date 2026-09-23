@@ -1,6 +1,6 @@
 plugins {
-	id 'net.fabricmc.fabric-loom' version "${loom_version}"
-	id 'maven-publish'
+	id "net.fabricmc.fabric-loom" version "${loom_version}"
+	id "com.diffplug.spotless" version "${spotless_version}"
 }
 
 def mod_props = [
@@ -23,9 +23,10 @@ def dep_versions = [
 version = "${mod_props["mod_version"]}+${dep_versions["minecraft_version"]}"
 base.archivesName = mod_props["mod_id"]
 def java_version = JavaVersion.VERSION_25
+def java_version_int = java_version.majorVersion.toInteger()
 
 repositories {
-	maven { url 'https://maven.nucleoid.xyz' }
+	maven { url "https://maven.nucleoid.xyz" }
 }
 
 dependencies {
@@ -43,7 +44,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = java_version.majorVersion.toInteger()
+	it.options.release = java_version_int
 }
 
 java {
@@ -55,5 +56,21 @@ java {
 jar {
 	from("LICENSE") {
 		rename { "${it}_${mod_props["mod_group_id"]}"}
+	}
+}
+
+spotless {
+	java {
+		importOrder()
+		removeUnusedImports()
+		shortenFullyQualifiedTypes()
+
+		// princeOfSpace("2.2.0")
+		// 	.indentStyle("TABS")
+		// 	.indentSize(1)
+		// 	.trailingCommas(true)
+		// 	.javaLanguageLevel(java_version_int)
+
+		formatAnnotations()
 	}
 }

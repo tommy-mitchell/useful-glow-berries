@@ -1,19 +1,16 @@
 package usefulglowberries.mixin;
 
-import java.util.function.Function;
-
-import org.spongepowered.asm.mixin.Debug;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
-
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
-
+import java.util.function.Function;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import org.spongepowered.asm.mixin.Debug;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import usefulglowberries.item.GlowBerriesItem;
 
 @Debug(export = true)
@@ -26,4 +23,3 @@ public class ItemsMixin {@Definition(id = "registerItem", method = "Lnet/minecra
 		return p -> new GlowBerriesItem(p);
 	}
 }
-
