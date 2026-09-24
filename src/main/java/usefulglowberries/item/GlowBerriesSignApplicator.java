@@ -2,22 +2,15 @@ package usefulglowberries.item;
 
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SignApplicator;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 //? if >26.2
 import net.minecraft.world.level.block.entity.SignTextSlot;
 import usefulglowberries.util.SoundUtil;
 
-public class GlowBerriesItem extends BlockItem implements SignApplicator {
-
-	public GlowBerriesItem(final Item.Properties properties) {
-		super(Blocks.CAVE_VINES, properties.useItemDescriptionPrefix());
-	}
+public class GlowBerriesSignApplicator implements SignApplicator {
 
 	//? if >26.2 {
 	@Override
