@@ -11,6 +11,7 @@ import usefulglowberries.util.SoundUtil;
 
 @Entrypoint
 public class UsefulGlowBerries implements ModInitializer {
+
 	public static final String MOD_ID = "useful-glow-berries";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);

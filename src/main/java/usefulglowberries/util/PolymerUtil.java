@@ -5,6 +5,7 @@ import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import usefulglowberries.UsefulGlowBerries;
 
 public class PolymerUtil {
+
 	public static void initialize() {
 		PolymerResourcePackUtils.addModAssets(UsefulGlowBerries.MOD_ID);
 		PolymerResourcePackUtils.markAsRequired();

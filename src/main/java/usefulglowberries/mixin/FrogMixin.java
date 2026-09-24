@@ -18,6 +18,7 @@ import usefulglowberries.util.SoundUtil;
 
 @Mixin(Frog.class)
 public abstract class FrogMixin extends Animal {
+
 	private static final Holder<MobEffect> EFFECT = MobEffects.LUCK;
 	private static final int EFFECT_DURATION = 6000; // 5 minutes in ticks (20tps)
 

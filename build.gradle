@@ -41,7 +41,10 @@ dependencies {
 }
 
 processResources {
-	filesMatching(["fabric.mod.json", "*.mixins.json"]) {
+	filesMatching([
+		"fabric.mod.json",
+		"*.mixins.json"
+	]) {
 		expand(mod_props + dep_versions)
 	}
 }

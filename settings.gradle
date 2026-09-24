@@ -18,5 +18,3 @@ stonecutter {
 		versions "26.2", "26.3"
 	}
 }
-
-rootProject.name = "useful-glow-berries"

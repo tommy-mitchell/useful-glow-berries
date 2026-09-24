@@ -14,8 +14,15 @@ import usefulglowberries.item.GlowBerriesItem;
 
 @Mixin(Items.class)
 public class ItemsMixin {
-	@Definition(id = "registerItem", method = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/references/BlockItemId;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;")
-	@Definition(id = "GLOW_BERRY_CROP", field = "Lnet/minecraft/references/BlockItemIds;GLOW_BERRY_CROP:Lnet/minecraft/references/BlockItemId;")
+
+	@Definition(
+		id = "registerItem",
+		method = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/references/BlockItemId;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"
+	)
+	@Definition(
+		id = "GLOW_BERRY_CROP",
+		field = "Lnet/minecraft/references/BlockItemIds;GLOW_BERRY_CROP:Lnet/minecraft/references/BlockItemId;"
+	)
 	@Expression("registerItem(GLOW_BERRY_CROP, @(?), ?)")
 	@Redirect(method = "<clinit>", at = @At("MIXINEXTRAS:EXPRESSION"))
 	private static Function<Properties, Item> redirectGlowBerriesItemFactory(final Block block) {

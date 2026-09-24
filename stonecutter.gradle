@@ -1,4 +1,52 @@
 plugins {
-    id "dev.kikugie.stonecutter"
+	id "dev.kikugie.stonecutter"
+	id "com.diffplug.spotless" version "8.10.2"
 }
+
+repositories {
+	mavenCentral()
+}
+
 stonecutter.active "26.3"
+
+def prettier_version = "3.9.9"
+def prettier_options = [
+	"useTabs": true,
+	"printWidth": 120,
+]
+
+spotless {
+	groovyGradle {
+		greclipse().configProperties("""
+			ignoreFormatterProblems=true
+			groovy.formatter.remove.unnecessary.semicolons=true
+			groovy.formatter.string.literal.quote.style=2
+		""")
+	}
+	java {
+		target "src/*/java/**/*.java"
+
+		shortenFullyQualifiedTypes()
+		importOrder()
+		removeUnusedImports()
+
+		cleanthat()
+
+		// formatter
+		prettier(["prettier": prettier_version, "prettier-plugin-java": "2.10.4"])
+		.config(["parser": "java", "plugins": ["prettier-plugin-java"]] + prettier_options + [
+			"arrowParens": "avoid",
+			"experimentalOperatorPosition": "start",
+		])
+
+		formatAnnotations()
+	}
+	format "json", {
+		target "src/**/*.json"
+		prettier(["prettier": prettier_version]).config(prettier_options)
+	}
+	format "markdown", {
+		target "readme.md"
+		prettier(["prettier": prettier_version]).config(prettier_options)
+	}
+}

@@ -1,9 +1,6 @@
 {
 	"entity.frog.eat_glow_berry": {
-		"sounds": [
-			"item/bottle/drink_honey1",
-			"item/bottle/drink_honey2"
-		],
+		"sounds": ["item/bottle/drink_honey1", "item/bottle/drink_honey2"],
 		"subtitle": "subtitles.entity.frog.ambient"
 	},
 	"item.glow_berry.use": {
