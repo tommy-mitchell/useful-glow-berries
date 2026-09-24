@@ -9,6 +9,7 @@ public class PolymerUtil {
 		PolymerResourcePackUtils.addModAssets(UsefulGlowBerries.MOD_ID);
 		PolymerResourcePackUtils.markAsRequired();
 
+		PolymerSoundEvent.registerOverlay(SoundUtil.FROG_EAT_GLOW_BERRY);
 		PolymerSoundEvent.registerOverlay(SoundUtil.GLOW_BERRY_USE);
 	}
 }

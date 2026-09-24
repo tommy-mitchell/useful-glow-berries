@@ -1,8 +1,5 @@
 package usefulglowberries.mixin;
 
-import org.spongepowered.asm.mixin.Debug;
-import org.spongepowered.asm.mixin.Mixin;
-
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +13,8 @@ import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.spongepowered.asm.mixin.Mixin;
+import usefulglowberries.util.SoundUtil;
 
 @Mixin(Frog.class)
 public abstract class FrogMixin extends Animal {
@@ -41,9 +40,14 @@ public abstract class FrogMixin extends Animal {
 
 			if (itemStack.is(Items.GLOW_BERRIES)) {
 				this.applyGlowBerryEffect();
-				// TODO: sound
+				this.playSound(SoundUtil.FROG_EAT_GLOW_BERRY);
 				this.usePlayerItem(player, hand, itemStack);
-				return InteractionResult.SUCCESS_SERVER;
+
+				if (player instanceof ServerPlayer) {
+					return InteractionResult.SUCCESS_SERVER;
+				} else if (this.level().isClientSide()) {
+					return InteractionResult.CONSUME;
+				}
 			}
 		}
 
