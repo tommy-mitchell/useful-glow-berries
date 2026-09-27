@@ -16,6 +16,8 @@ def prettier_options = [
 ]
 
 spotless {
+	enforceCheck false
+
 	groovyGradle {
 		greclipse().configProperties("""
 			ignoreFormatterProblems=true

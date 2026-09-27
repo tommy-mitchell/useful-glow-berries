@@ -1,0 +1,174 @@
+{
+	"type": "minecraft:entity",
+	"pools": [
+		{
+			"conditions": [
+				{
+					"condition": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"minecraft:type_specific/cube_mob": {
+							"size": 1
+						}
+					}
+				}
+			],
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:inverted",
+							"term": {
+								"condition": "minecraft:damage_source_properties",
+								"predicate": {
+									"source_entity": {
+										"minecraft:entity_type": "minecraft:frog"
+									}
+								}
+							}
+						}
+					],
+					"functions": [
+						{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 2,
+								"min": 0
+							},
+							"function": "minecraft:set_count"
+						},
+						{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1,
+								"min": 0
+							},
+							"enchantment": "minecraft:looting",
+							"function": "minecraft:enchanted_count_increase"
+						}
+					],
+					"name": "minecraft:slime_ball"
+				},
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:all_of",
+							"terms": [
+								{
+									"condition": "minecraft:damage_source_properties",
+									"predicate": {
+										"source_entity": {
+											"minecraft:entity_type": "minecraft:frog"
+										}
+									}
+								},
+								{
+									"condition": "minecraft:inverted",
+									"term": {
+										"condition": "minecraft:damage_source_properties",
+										"predicate": {
+											"source_entity": {
+												"minecraft:effects": {
+													"minecraft:luck": {}
+												}
+											}
+										}
+									}
+								}
+							]
+						}
+					],
+					"functions": [
+						{
+							"count": 1,
+							"function": "minecraft:set_count"
+						}
+					],
+					"name": "minecraft:slime_ball"
+				},
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:damage_source_properties",
+							"predicate": {
+								"source_entity": {
+									"minecraft:entity_type": "minecraft:frog",
+									"minecraft:components": {
+										"minecraft:frog/variant": "minecraft:warm"
+									},
+									"minecraft:effects": {
+										"minecraft:luck": {}
+									}
+								}
+							}
+						}
+					],
+					"functions": [
+						{
+							"count": 1,
+							"function": "minecraft:set_count"
+						}
+					],
+					"name": "minecraft:pearlescent_froglight"
+				},
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:damage_source_properties",
+							"predicate": {
+								"source_entity": {
+									"minecraft:entity_type": "minecraft:frog",
+									"minecraft:components": {
+										"minecraft:frog/variant": "minecraft:cold"
+									},
+									"minecraft:effects": {
+										"minecraft:luck": {}
+									}
+								}
+							}
+						}
+					],
+					"functions": [
+						{
+							"count": 1,
+							"function": "minecraft:set_count"
+						}
+					],
+					"name": "minecraft:verdant_froglight"
+				},
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:damage_source_properties",
+							"predicate": {
+								"source_entity": {
+									"minecraft:entity_type": "minecraft:frog",
+									"minecraft:components": {
+										"minecraft:frog/variant": "minecraft:temperate"
+									},
+									"minecraft:effects": {
+										"minecraft:luck": {}
+									}
+								}
+							}
+						}
+					],
+					"functions": [
+						{
+							"count": 1,
+							"function": "minecraft:set_count"
+						}
+					],
+					"name": "minecraft:ochre_froglight"
+				}
+			],
+			"rolls": 1
+		}
+	],
+	"random_sequence": "minecraft:entities/slime"
+}

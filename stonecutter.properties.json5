@@ -2,7 +2,7 @@
 	"mod": {
 		"group_id": "usefulglowberries",
 		"id": "useful-glow-berries",
-		"version": "0.1.0-pre-1",
+		"version": "0.1.0-pre-2",
 		"name": "Useful Glow Berries",
 		"description": "Use glow berries in signs and to make froglights.",
 		"author": "masterfulmonkey",
