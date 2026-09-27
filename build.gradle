@@ -80,3 +80,22 @@ jar {
 		rename { "${it}_${mod_props["mod_group_id"]}"}
 	}
 }
+
+def jar_name = "${mod_props["mod_id"]}-${version}"
+
+tasks.register("buildAndCollect") {
+	group = "build"
+	dependsOn(tasks.named("build"))
+
+	doLast {
+		for (file in [
+			"${jar_name}",
+			"${jar_name}-sources"
+		]) {
+			copy {
+				from layout.buildDirectory.file("libs/${file}.jar")
+				into rootProject.layout.buildDirectory.file("libs")
+			}
+		}
+	}
+}

@@ -1,11 +1,11 @@
-name: CI Build
+name: CI Lint
 on:
   push:
     branches: ["main"]
   pull_request:
-
 jobs:
-  build:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -14,8 +14,4 @@ jobs:
         with:
           java-version: "25"
           distribution: "microsoft"
-      - run: ./gradlew buildAndCollect
-      - uses: actions/upload-artifact@v7
-        with:
-          name: Jars
-          path: build/libs/
+      - run: ./gradlew spotlessCheck

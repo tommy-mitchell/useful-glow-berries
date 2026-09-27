@@ -51,4 +51,8 @@ spotless {
 		target "readme.md"
 		prettier(["prettier": prettier_version]).config(prettier_options)
 	}
+	format "yaml", {
+		target "src/**/*.{yaml,yml}"
+		prettier(["prettier": prettier_version]).config(prettier_options)
+	}
 }
