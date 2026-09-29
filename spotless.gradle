@@ -1,0 +1,79 @@
+def gitignoreFile = rootProject.file(".gitignore")
+def gitignoreOutput = layout.buildDirectory.file("gitignore.txt")
+
+task gitignore(type: NpxTask) {
+	command = "gitignore-to-glob-cli@${gitignore_to_glob_cli_version}"
+	args = [
+		"-i",
+		gitignoreFile.absolutePath
+	]
+
+	inputs.file(gitignoreFile)
+	outputs.file(gitignoreOutput)
+
+	execOverrides {
+		standardOutput = new FileOutputStream(gitignoreOutput.get().asFile)
+	}
+}
+
+def excludePatterns = providers.provider {
+	def patterns = gitignoreOutput.get().asFile.readLines()
+	rootProject.fileTree(rootProject.projectDir) {
+		include(patterns)
+	}
+}
+
+def prettier_version = [prettier: prettier_version]
+def prettier_java_plugin = ["prettier-plugin-java": prettier_java_version]
+def prettier_plugins = [
+	"prettier-plugin-toml": prettier_toml_version,
+	"prettier-plugin-properties": prettier_properties_version,
+]
+def prettier_plugin_names = prettier_plugins.keySet().toArray()
+def prettier_options = [
+	useTabs: true,
+	printWidth: 120,
+]
+
+spotless {
+	enforceCheck = false
+
+	java {
+		target "src/*/java/**/*.java"
+
+		toggleOffOn()
+		shortenFullyQualifiedTypes()
+		importOrder()
+		removeUnusedImports()
+
+		cleanthat()
+
+		prettier(prettier_version + prettier_java_plugin)
+				.config([parser: "java", plugins: ["prettier-plugin-java"]] + prettier_options + [
+					arrowParens: "avoid",
+					experimentalOperatorPosition: "start",
+				])
+
+		formatAnnotations()
+	}
+	groovyGradle {
+		greclipse().configProperties("""
+			ignoreFormatterProblems=true
+			groovy.formatter.remove.unnecessary.semicolons=true
+			groovy.formatter.string.literal.quote.style=2
+		""")
+	}
+	format "prettier", {
+		target "**/*.json", "**/*.yaml", "**/*.yml", "**/*.toml", "**/*.properties", "**/*.md"
+		targetExclude excludePatterns // see diffplug/spotless#2443
+
+		prettier(prettier_version + prettier_plugins)
+				.config([plugins: prettier_plugin_names] + prettier_options + [
+					keySeparator: "="
+				])
+	}
+}
+
+tasks.named("spotlessPrettier").configure {
+	dependsOn gitignore
+}

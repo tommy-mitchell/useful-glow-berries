@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -17,5 +18,5 @@ jobs:
       - run: ./gradlew buildAndCollect
       - uses: actions/upload-artifact@v7
         with:
-          name: Jars
+          name: Build results (mod jars)
           path: build/libs/
