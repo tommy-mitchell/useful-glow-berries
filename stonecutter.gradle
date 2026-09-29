@@ -1,6 +1,7 @@
 plugins {
 	id "dev.kikugie.stonecutter"
-	id "com.diffplug.spotless" version "8.10.2"
+	id "com.diffplug.spotless" version "${spotless_version}"
+	id "com.github.node-gradle.node" version "${node_gradle_version}"
 }
 
 repositories {
@@ -9,25 +10,46 @@ repositories {
 
 stonecutter.active "26.3"
 
-def prettier_version = "3.9.9"
+def gitignoreFile = rootProject.file(".gitignore")
+def gitignoreOutput = layout.buildDirectory.file("gitignore.txt")
+
+task gitignore(type: NpxTask) {
+	// command = "gitignore-to-minimatch-cli"
+	command = "tommy-mitchell/gitignore-to-minimatch-cli"
+	args = ["-i", gitignoreFile.absolutePath]
+
+	inputs.file(gitignoreFile)
+	outputs.file(gitignoreOutput)
+
+	execOverrides {
+		standardOutput = new FileOutputStream(gitignoreOutput.get().asFile)
+	}
+}
+
+def excludePatterns = providers.provider {
+	def patterns = gitignoreOutput.get().asFile.readLines()
+	rootProject.fileTree(rootProject.projectDir) {
+		include(patterns)
+	}
+}
+
+def prettier_version = [prettier: prettier_version]
+def prettier_plugins = [
+	"prettier-plugin-toml": prettier_toml_version,
+	"prettier-plugin-properties": prettier_properties_version,
+]
 def prettier_options = [
-	"useTabs": true,
-	"printWidth": 120,
+	useTabs: true,
+	printWidth: 120,
 ]
 
 spotless {
-	enforceCheck false
+	enforceCheck = false
 
-	groovyGradle {
-		greclipse().configProperties("""
-			ignoreFormatterProblems=true
-			groovy.formatter.remove.unnecessary.semicolons=true
-			groovy.formatter.string.literal.quote.style=2
-		""")
-	}
 	java {
 		target "src/*/java/**/*.java"
 
+		toggleOffOn()
 		shortenFullyQualifiedTypes()
 		importOrder()
 		removeUnusedImports()
@@ -35,24 +57,35 @@ spotless {
 		cleanthat()
 
 		// formatter
-		prettier(["prettier": prettier_version, "prettier-plugin-java": "2.10.4"])
-		.config(["parser": "java", "plugins": ["prettier-plugin-java"]] + prettier_options + [
-			"arrowParens": "avoid",
-			"experimentalOperatorPosition": "start",
+		prettier(prettier_version + ["prettier-plugin-java": prettier_java_version])
+		.config([parser: "java", plugins: ["prettier-plugin-java"]] + prettier_options + [
+			arrowParens: "avoid",
+			experimentalOperatorPosition: "start",
 		])
+	}
+	// groovyGradle {
+	// 	greclipse().configProperties("""
+	// 		ignoreFormatterProblems=true
+	// 		groovy.formatter.remove.unnecessary.semicolons=true
+	// 		groovy.formatter.string.literal.quote.style=2
+	// 	""")
+	// }
+	// format "gradle", {
+	// 	target "**/*.gradle"
+	// 	prettier(prettier_version + ["prettier-plugin-groovy": prettier_groovy_version])
+	// 	.config([parser: "groovy", plugins: "prettier-plugin-groovy"] + prettier_options)
+	// }
+	format "prettier", {
+		target "**/*.json", "**/*.yaml", "**/*.yml", "**/*.toml", "**/*.properties", "**/*.md"
+		targetExclude excludePatterns // see diffplug/spotless#2443
 
-		formatAnnotations()
+		prettier(prettier_version + prettier_plugins)
+		.config([plugins: prettier_plugins.keySet().toArray()] + prettier_options + [
+			keySeparator: "="
+		])
 	}
-	format "json", {
-		target "src/**/*.json"
-		prettier(["prettier": prettier_version]).config(prettier_options)
-	}
-	format "markdown", {
-		target "readme.md"
-		prettier(["prettier": prettier_version]).config(prettier_options)
-	}
-	format "yaml", {
-		target "src/**/*.{yaml,yml}"
-		prettier(["prettier": prettier_version]).config(prettier_options)
-	}
+}
+
+tasks.named("spotlessPrettier").configure {
+    dependsOn gitignore
 }

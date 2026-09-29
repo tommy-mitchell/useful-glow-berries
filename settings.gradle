@@ -1,13 +1,13 @@
 pluginManagement {
 	repositories {
-		maven { url "https://maven.fabricmc.net/" }
-		maven { url "https://maven.kikugie.dev/snapshots" }
+		maven { url = "https://maven.fabricmc.net/" }
+		maven { url = "https://maven.kikugie.dev/snapshots" }
 		gradlePluginPortal()
 	}
 }
 
 plugins {
-	id "dev.kikugie.stonecutter" version "0.9.8"
+	id "dev.kikugie.stonecutter" version "${stonecutter_version}"
 }
 
 stonecutter {
